@@ -1,0 +1,6 @@
+{
+  "name": "FreshMart",
+  "description": "All-in-one modern shopping app for Clothing, Groceries, and Fresh Seafood featuring AI Virtual Try-On, Live Cart, Smart Checkout, and Order Tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
