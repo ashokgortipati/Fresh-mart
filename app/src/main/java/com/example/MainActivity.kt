@@ -98,7 +98,24 @@ fun FreshMartApp(
     val backStack = remember { mutableStateListOf<AppDestination>() }
 
     fun navigateTo(dest: AppDestination) {
-        if (currentDestination != dest) {
+        val authState = authViewModel.uiState.value
+        val protectedDestinations = listOf(
+            AppDestination.Profile,
+            AppDestination.Cart,
+            AppDestination.Checkout,
+            AppDestination.Admin
+        )
+
+        val isProtected = protectedDestinations.any { 
+            it::class == dest::class || it == dest 
+        }
+
+        if (isProtected && !authState.isLoggedIn) {
+            if (currentDestination != AppDestination.Auth) {
+                backStack.add(currentDestination)
+            }
+            currentDestination = AppDestination.Auth
+        } else if (currentDestination != dest) {
             backStack.add(currentDestination)
             currentDestination = dest
         }

@@ -25,3 +25,4 @@ dependencyResolutionManagement {
 rootProject.name = "FreshMart"
 
 include(":app")
+include(":server")

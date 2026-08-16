@@ -124,11 +124,15 @@ fun AuthScreen(
                             label = { Text("Full Name") },
                             leadingIcon = { Icon(Icons.Filled.Person, contentDescription = null) },
                             singleLine = true,
+                            isError = state.fieldErrors.containsKey("name"),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .testTag("auth_name_input"),
                             shape = RoundedCornerShape(12.dp)
                         )
+                        if (state.fieldErrors.containsKey("name")) {
+                            Text(state.fieldErrors["name"]!!, color = MaterialTheme.colorScheme.error, fontSize = 11.sp, modifier = Modifier.fillMaxWidth().padding(start = 8.dp, top = 2.dp))
+                        }
                         Spacer(modifier = Modifier.height(10.dp))
 
                         OutlinedTextField(
@@ -138,11 +142,15 @@ fun AuthScreen(
                             leadingIcon = { Icon(Icons.Filled.Phone, contentDescription = null) },
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                             singleLine = true,
+                            isError = state.fieldErrors.containsKey("phone"),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .testTag("auth_phone_input"),
                             shape = RoundedCornerShape(12.dp)
                         )
+                        if (state.fieldErrors.containsKey("phone")) {
+                            Text(state.fieldErrors["phone"]!!, color = MaterialTheme.colorScheme.error, fontSize = 11.sp, modifier = Modifier.fillMaxWidth().padding(start = 8.dp, top = 2.dp))
+                        }
                         Spacer(modifier = Modifier.height(10.dp))
                     }
 
@@ -153,11 +161,15 @@ fun AuthScreen(
                         leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         singleLine = true,
+                        isError = state.fieldErrors.containsKey("email"),
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("auth_email_input"),
                         shape = RoundedCornerShape(12.dp)
                     )
+                    if (state.fieldErrors.containsKey("email")) {
+                        Text(state.fieldErrors["email"]!!, color = MaterialTheme.colorScheme.error, fontSize = 11.sp, modifier = Modifier.fillMaxWidth().padding(start = 8.dp, top = 2.dp))
+                    }
 
                     Spacer(modifier = Modifier.height(10.dp))
 
@@ -177,11 +189,36 @@ fun AuthScreen(
                         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         singleLine = true,
+                        isError = state.fieldErrors.containsKey("password"),
                         modifier = Modifier
                             .fillMaxWidth()
                             .testTag("auth_password_input"),
                         shape = RoundedCornerShape(12.dp)
                     )
+                    if (state.fieldErrors.containsKey("password")) {
+                        Text(state.fieldErrors["password"]!!, color = MaterialTheme.colorScheme.error, fontSize = 11.sp, modifier = Modifier.fillMaxWidth().padding(start = 8.dp, top = 2.dp))
+                    }
+
+                    if (!state.isLoginMode) {
+                        Spacer(modifier = Modifier.height(10.dp))
+                        OutlinedTextField(
+                            value = state.confirmPasswordInput,
+                            onValueChange = { viewModel.onConfirmPasswordChanged(it) },
+                            label = { Text("Confirm Password") },
+                            leadingIcon = { Icon(Icons.Filled.Lock, contentDescription = null) },
+                            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            singleLine = true,
+                            isError = state.fieldErrors.containsKey("confirmPassword"),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .testTag("auth_confirm_password_input"),
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        if (state.fieldErrors.containsKey("confirmPassword")) {
+                            Text(state.fieldErrors["confirmPassword"]!!, color = MaterialTheme.colorScheme.error, fontSize = 11.sp, modifier = Modifier.fillMaxWidth().padding(start = 8.dp, top = 2.dp))
+                        }
+                    }
 
                     if (state.isLoginMode) {
                         Row(
@@ -248,31 +285,6 @@ fun AuthScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Google Sign In CTA
-                    OutlinedButton(
-                        onClick = { viewModel.loginWithGoogle() },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
-                            .testTag("btn_google_signin"),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.AccountCircle,
-                            contentDescription = "Google",
-                            tint = Color(0xFF4285F4),
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Continue with Google",
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 13.sp,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(12.dp))
 
                     // Toggle mode
                     Row(
